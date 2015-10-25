@@ -1,0 +1,2 @@
+# NLPlayerVideoView
+AVPlayer cache

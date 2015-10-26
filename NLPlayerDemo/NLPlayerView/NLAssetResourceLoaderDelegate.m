@@ -8,10 +8,8 @@
 
 
 #import "NLAssetResourceLoaderDelegate.h"
-#import "NLPlayerFileCache.h"
 
 @import MobileCoreServices;
-@import SystemConfiguration;
 
 NSString *const NLNotificationAssetRsourceLoadCompletion = @"NLNotificationAssetRsourceLoadCompletion";
 
@@ -26,9 +24,6 @@ NSString *const HTTPScheme = @"http";
 @property (nonatomic, strong) NSMutableArray *pendingRequests;
 
 @property (nonatomic, strong) NSMutableData *onlineMovieData;
-
-@property (nonatomic, strong) NSData *localMovieData;
-
 
 - (NSData *)movieData;
 
@@ -96,27 +91,12 @@ NSString *const HTTPScheme = @"http";
 
 #pragma mark - loading data
 - (void)loadResource:(AVAssetResourceLoader *)resourceLoader loadingRequest:(AVAssetResourceLoadingRequest *)loadingRequest {
-  NSURL *url = [self.class httpSchemeWithUrl:[loadingRequest.request URL]];
-  
-  if ([[NLPlayerFileCache shareFileCache] containsDataForURL:[url absoluteString]]) {
-    [self loadMoiveDataByLocalFileWithURL:url];
-  } else {
-    [self loadMoiveDataByConnectionWithURL:url];
-  }
-  
-  
   [self.pendingRequests addObject:loadingRequest];
+  
+  NSURL *url = [self.class httpSchemeWithUrl:[loadingRequest.request URL]];
+  [self loadMoiveDataByConnectionWithURL:url];
+  
   [self processPendingRequests];
-}
-
-- (void)loadMoiveDataByLocalFileWithURL:(NSURL *)url {
-  if (self.localMovieData == nil) {
-#ifdef DEBUG
-    NSLog(@"读取本地视频数据：%@", url);
-#endif
-    self.localMovieData = [[NLPlayerFileCache shareFileCache] loadDataForURL:[url absoluteString]];
-    self.response = [[NSHTTPURLResponse alloc] initWithURL:url MIMEType:@"video/mp4" expectedContentLength:self.localMovieData.length textEncodingName:nil];
-  }
 }
 
 - (void)loadMoiveDataByConnectionWithURL:(NSURL *)url {
@@ -224,7 +204,7 @@ NSString *const HTTPScheme = @"http";
 
 #pragma mark extension
 - (NSData *)movieData {
-  return self.localMovieData ?: self.onlineMovieData;
+  return self.onlineMovieData;
 }
 
 @end

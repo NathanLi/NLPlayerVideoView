@@ -13,6 +13,8 @@
 
 @interface NLPlayerVideoView : UIView
 
+@property (nonatomic, copy, readonly) NSURL *url;
+
 @property (nonatomic, strong) AVPlayer *player;
 
 @property (nonatomic, strong, readonly) AVPlayerItem *playerItem;  // support KVO

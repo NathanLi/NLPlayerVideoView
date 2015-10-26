@@ -10,6 +10,7 @@
 		3543C95FFDD250F3BD5A1EBF /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACD4C40C9E5AA0E3340C11E4 /* libPods.a */; };
 		5A2BFCB11BD38719007DB949 /* NLPlayerViewDemo.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A2BFCB01BD38719007DB949 /* NLPlayerViewDemo.m */; settings = {ASSET_TAGS = (); }; };
 		5A54866A1BD3DE1E006E97F6 /* NLPlayerFileCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A5486691BD3DE1E006E97F6 /* NLPlayerFileCache.m */; settings = {ASSET_TAGS = (); }; };
+		D8AE12091BDE5AB000BAB46E /* DFDiskCache+nl_pathExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = D8AE12081BDE5AB000BAB46E /* DFDiskCache+nl_pathExtension.m */; settings = {ASSET_TAGS = (); }; };
 		D8C489ED1BD0891600533948 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D8C489EC1BD0891600533948 /* main.m */; };
 		D8C489F01BD0891600533948 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D8C489EF1BD0891600533948 /* AppDelegate.m */; };
 		D8C489F31BD0891600533948 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8C489F21BD0891600533948 /* ViewController.m */; };
@@ -28,6 +29,9 @@
 		5A5486691BD3DE1E006E97F6 /* NLPlayerFileCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLPlayerFileCache.m; sourceTree = "<group>"; };
 		81ED709EF64302340DB8A3D9 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		ACD4C40C9E5AA0E3340C11E4 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		D8AE12071BDE5AB000BAB46E /* DFDiskCache+nl_pathExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DFDiskCache+nl_pathExtension.h"; sourceTree = "<group>"; };
+		D8AE12081BDE5AB000BAB46E /* DFDiskCache+nl_pathExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DFDiskCache+nl_pathExtension.m"; sourceTree = "<group>"; };
+		D8AE120A1BDE5B1100BAB46E /* NLPlayerDemo-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NLPlayerDemo-Prefix.pch"; sourceTree = "<group>"; };
 		D8C489E81BD0891600533948 /* NLPlayerDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NLPlayerDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8C489EC1BD0891600533948 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		D8C489EE1BD0891600533948 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -61,6 +65,8 @@
 			children = (
 				5A5486681BD3DE1E006E97F6 /* NLPlayerFileCache.h */,
 				5A5486691BD3DE1E006E97F6 /* NLPlayerFileCache.m */,
+				D8AE12071BDE5AB000BAB46E /* DFDiskCache+nl_pathExtension.h */,
+				D8AE12081BDE5AB000BAB46E /* DFDiskCache+nl_pathExtension.m */,
 			);
 			path = cache;
 			sourceTree = "<group>";
@@ -122,6 +128,7 @@
 		D8C489EB1BD0891600533948 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				D8AE120A1BDE5B1100BAB46E /* NLPlayerDemo-Prefix.pch */,
 				D8C489EC1BD0891600533948 /* main.m */,
 			);
 			name = "Supporting Files";
@@ -260,6 +267,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D8AE12091BDE5AB000BAB46E /* DFDiskCache+nl_pathExtension.m in Sources */,
 				D8C489F31BD0891600533948 /* ViewController.m in Sources */,
 				5A54866A1BD3DE1E006E97F6 /* NLPlayerFileCache.m in Sources */,
 				D8C489F01BD0891600533948 /* AppDelegate.m in Sources */,
@@ -318,6 +326,8 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "NLPlayerDemo-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -359,6 +369,8 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "NLPlayerDemo-Prefix.pch";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -377,6 +389,8 @@
 			baseConfigurationReference = 0C7CDE0B0C18C4F1E6BABC32 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "NLPlayerDemo/NLPlayerDemo-Prefix.pch";
 				INFOPLIST_FILE = NLPlayerDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Hoomic.NLPlayerDemo;
@@ -389,6 +403,8 @@
 			baseConfigurationReference = 81ED709EF64302340DB8A3D9 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "NLPlayerDemo/NLPlayerDemo-Prefix.pch";
 				INFOPLIST_FILE = NLPlayerDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Hoomic.NLPlayerDemo;

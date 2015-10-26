@@ -8,8 +8,9 @@
 
 #import "NLPlayerFileCache.h"
 #import <CommonCrypto/CommonDigest.h>
-#import <DFCache.h>
+#import "DFCache.h"
 #import "NLAssetResourceLoaderDelegate.h"
+#import "DFDiskCache+nl_pathExtension.h"
 
 @interface NLPlayerFileCache ()
 
@@ -32,11 +33,12 @@
 - (instancetype)init {
   if (self = [super init]) {
     _dfCache = [[DFDiskCache alloc] initWithName:@"NLVideoCache"];
+    _dfCache.nl_filenameContainPathExtension = YES;
   }
   return self;
 }
 
-- (void)storeData:(NSData *)data forURL:(NSString *)url {
+- (void)storeData:(NSData *)data forURLString:(NSString *)url {
   [self.dfCache setData:data forKey:[self cachedFileNameForKey:url]];
 }
 
@@ -44,9 +46,9 @@
   return [self.dfCache dataForKey:[self cachedFileNameForKey:url]];
 }
 
-- (NSURL *)pathForURL:(NSString *)url {
-  NSString *diskPath = [self.dfCache pathForKey:[self cachedFileNameForKey:url]];
-  return [NSURL URLWithString:diskPath];
+- (NSURL *)fileURLForOriginURLString:(NSString *)url {
+  NSURL *diskUrl = [self.dfCache URLForKey:[self cachedFileNameForKey:url]];
+  return diskUrl;
 }
 
 - (BOOL)containsDataForURL:(NSString *)url {
@@ -64,7 +66,7 @@
     NSData *data = [userInfo objectForKey:@"data"];
     NSString *url = [userInfo objectForKey:@"url"];
     if (data && url) {
-      [self storeData:data forURL:url];
+      [self storeData:data forURLString:url];
     }
   }];
 }
@@ -80,6 +82,10 @@
   CC_MD5(str, (CC_LONG)strlen(str), r);
   NSString *filename = [NSString stringWithFormat:@"%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x",
                         r[0], r[1], r[2], r[3], r[4], r[5], r[6], r[7], r[8], r[9], r[10], r[11], r[12], r[13], r[14], r[15]];
+  NSString *extenion = [key pathExtension];
+  if ([extenion length] > 0) {
+    filename = [filename stringByAppendingPathExtension:extenion];
+  }
   
   return filename;
 }

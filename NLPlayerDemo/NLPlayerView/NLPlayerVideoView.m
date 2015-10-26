@@ -8,6 +8,7 @@
 
 #import "NLPlayerVideoView.h"
 #import "NLAssetResourceLoaderDelegate.h"
+#import "NLPlayerFileCache.h"
 
 @import AVFoundation;
 
@@ -46,7 +47,16 @@ static void *NLPlayerVideoViewCurrentItemObservationContext = &NLPlayerVideoView
 
 
 - (void)play {
-  [self.player play];
+  @try {
+    [self.player play];
+  }
+  @catch (NSException *exception) {
+    NSLog(@"player video exception: %@", exception);
+  }
+  @finally {
+    
+  }
+
 }
 
 - (void)pause {
@@ -115,6 +125,7 @@ static void *NLPlayerVideoViewCurrentItemObservationContext = &NLPlayerVideoView
 - (instancetype)initWithUrl:(NSURL *) url {
   if (self = [super init]) {
     [self setURL:url];
+    [[self playerLayer] setVideoGravity:AVLayerVideoGravityResizeAspectFill];
   }
   return self;
 }
@@ -132,19 +143,27 @@ static void *NLPlayerVideoViewCurrentItemObservationContext = &NLPlayerVideoView
     return;
   }
   
-  url = [NLAssetResourceLoaderDelegate customSchemeWithUrl:url];
-  self.asset = [AVURLAsset URLAssetWithURL:url options:nil];
-  self.resourceLoaderDelegate = [[NLAssetResourceLoaderDelegate alloc] init];
-  [self.asset.resourceLoader setDelegate:self.resourceLoaderDelegate queue:dispatch_get_main_queue()];
-  
   [self prepareToPlay];
 }
 
 - (void)prepareToPlay {
+  [self preparePlayerAsset];
   [self preparePlayerItem];
   
   self.player = [[AVPlayer alloc] initWithPlayerItem:self.playerItem];
   [self.player setActionAtItemEnd:AVPlayerActionAtItemEndNone];
+}
+
+- (void)preparePlayerAsset {
+  if ([[NLPlayerFileCache shareFileCache] containsDataForURL:[self.url absoluteString]]) {
+    NSURL *fileURL = [[NLPlayerFileCache shareFileCache] fileURLForOriginURLString:[self.url absoluteString]];
+    self.asset = [AVURLAsset URLAssetWithURL:fileURL options:nil];
+  } else {
+    NSURL *url = [NLAssetResourceLoaderDelegate customSchemeWithUrl:self.url];
+    self.asset = [AVURLAsset URLAssetWithURL:url options:nil];
+    self.resourceLoaderDelegate = [[NLAssetResourceLoaderDelegate alloc] init];
+    [self.asset.resourceLoader setDelegate:self.resourceLoaderDelegate queue:dispatch_get_main_queue()];
+  }
 }
 
 - (void)preparePlayerItem {
@@ -157,6 +176,10 @@ static void *NLPlayerVideoViewCurrentItemObservationContext = &NLPlayerVideoView
 #ifdef DEBUG
   NSLog(@"[%@ %s]", NSStringFromClass(self.class), sel_getName(_cmd));
 #endif
+  
+  if ([self isPlaying]) {
+    [self stop];
+  }
   
   if (self.observerItemPlayEnd) {
     [[NSNotificationCenter defaultCenter] removeObserver:self.observerItemPlayEnd];

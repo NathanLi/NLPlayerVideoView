@@ -12,10 +12,10 @@
 
 + (instancetype)shareFileCache;
 
-- (void)storeData:(NSData *)data forURL:(NSString *)url;
+- (void)storeData:(NSData *)data forURLString:(NSString *)url;
 - (NSData *)loadDataForURL:(NSString *)url;
 
-- (NSURL *)pathForURL:(NSString *)url;
+- (NSURL *)fileURLForOriginURLString:(NSString *)originURLString;
 
 - (BOOL)containsDataForURL:(NSString *)url;
 

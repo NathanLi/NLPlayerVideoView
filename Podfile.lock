@@ -1,10 +1,10 @@
 PODS:
-  - DFCache (3.1.1)
+  - DFCache (3.1.0)
 
 DEPENDENCIES:
   - DFCache
 
 SPEC CHECKSUMS:
-  DFCache: 0d7ecbc72f3784d0d5d223c53a99514bd76a5dab
+  DFCache: eb78f915c4f747759a2efb2656c58929939b4763
 
 COCOAPODS: 0.39.0
